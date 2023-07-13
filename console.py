@@ -10,7 +10,7 @@ class HBNBCommand(cmd.Cmd):
     Defines ALX AirBnB command interpreter
     """
 
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
 
     def emptyline(self):
         """Do nothing when there is an empty line"""
@@ -22,8 +22,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """EOF signal to exit the program"""
-        print()
-        pass
+        return True
 
 
 
