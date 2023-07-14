@@ -4,6 +4,7 @@ Defines AirBnB console
 """
 import cmd
 import models
+from models.user import User
 BaseModel = models.base_model.BaseModel
 
 
