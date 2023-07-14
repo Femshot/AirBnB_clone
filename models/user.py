@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Defines the User class"""
-import from models
+import models
+BaseModel = models.base_model.BaseModel
 
 
 class User(BaseModel):
@@ -17,3 +18,12 @@ class User(BaseModel):
     password = ""
     first_name = ""
     last_name = ""
+
+    def __init__(self, *args, **kwargs):
+        """Instantiation of User class Object
+
+        Args:
+            args: positional arguments
+            kwargs: keyword argument
+        """
+        super().__init__(*args, **kwargs)

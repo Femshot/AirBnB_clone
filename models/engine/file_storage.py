@@ -3,6 +3,11 @@
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class FileStorage:
@@ -27,8 +32,6 @@ class FileStorage:
             cl_id: id of obj object
             ky: 'class name.class id'
         """
-        """for obj_id, value in FileStorage.__objects.items():
-            FileStorage.__objects[obj_id] = obj.remake(**value)"""
         cl_name = obj.__class__.__name__
         cl_id = obj.id
         ky = cl_name + "." + cl_id
@@ -54,6 +57,19 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as fl:
                 obj_dict = json.load(fl)
                 for key, value in obj_dict.items():
-                    FileStorage.__objects[key] = BaseModel(**value)
+                    if key.startswith("BaseModel"):
+                        FileStorage.__objects[key] = BaseModel(**value)
+                    elif key.startswith("User"):
+                        FileStorage.__objects[key] = User(**value)
+                    elif key.startswith("State"):
+                        FileStorage.__objects[key] = State(**value)
+                    elif key.startswith("City"):
+                        FileStorage.__objects[key] = City(**value)
+                    elif key.startswith("Amenity"):
+                        FileStorage.__objects[key] = Amenity(**value)
+                    elif key.startswith("Place"):
+                        FileStorage.__objects[key] = Place(**value)
+                    elif key.startswith("Review"):
+                        FileStorage.__objects[key] = Review(**value)
         except Exception:
             pass

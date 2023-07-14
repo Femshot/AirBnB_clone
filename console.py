@@ -5,6 +5,11 @@ Defines AirBnB console
 import cmd
 import models
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 BaseModel = models.base_model.BaseModel
 
 
@@ -12,7 +17,8 @@ class HBNBCommand(cmd.Cmd, BaseModel):
     """
     Defines ALX AirBnB command interpreter
     """
-
+    cls_list = ["BaseModel", "User", "State", "City", "Place", "Amenity",
+               "Review"]
     prompt = "(hbnb) "
 
     def emptyline(self):
@@ -34,10 +40,10 @@ class HBNBCommand(cmd.Cmd, BaseModel):
         """
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif arg not in HBNBCommand.cls_list:
             print("** class doesn't exist **")
         else:
-            var = BaseModel()
+            var = eval(arg + "()")
             var.save()
             print(var.id)
 
@@ -50,7 +56,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
             print("** class name missing **")
         else:
             words = arg.split()
-            if words[0] != "BaseModel":
+            if words[0] not in HBNBCommand.cls_list:
                 print("** class doesn't exist **")
             elif len(words) == 1:
                 print("** instance id missing **")
@@ -75,7 +81,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
             print("** class name missing **")
         else:
             words = arg.split()
-            if words[0] != "BaseModel":
+            if words[0] not in HBNBCommand.cls_list:
                 print("** class doesn't exist **")
             elif len(words) == 1:
                 print("** instance id missing **")
@@ -97,14 +103,18 @@ class HBNBCommand(cmd.Cmd, BaseModel):
 
         based or not on the class name, i.e Ex: $ all BaseModel or $ all.
         """
-        if arg and arg != "BaseModel":
+        if arg and arg not in HBNBCommand.cls_list:
             print("** class doesn't exist **")
         else:
             new_list = []
             models.storage.reload()
             all_obj = models.storage.all()
             for obj in all_obj:
-                new_list.append(str(all_obj[obj]))
+                if arg:
+                    if obj.startswith(arg):
+                        new_list.append(str(all_obj[obj]))
+                else:
+                    new_list.append(str(all_obj[obj]))
             print(new_list)
 
     def do_update(self, arg):
@@ -116,7 +126,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
             print("** class name missing **")
         else:
             words = arg.split()
-            if words[0] != "BaseModel":
+            if words[0] not in HBNBCommand.cls_list:
                 print("** class doesn't exist **")
             elif len(words) == 1:
                 print("** instance id missing **")
@@ -134,8 +144,14 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                 if not found:
                     print("** instance id missing **")
                 else:
-                    words[3] = eval(words[3])
-                    found.__setattr__(words[2], words[3])
+                    value = (words[3] + ".del")
+                    try:
+                        value_2 = eval(words[3])
+                        print("No Space Error on", value_2)
+                        """found.__setattr__(words[2], words[3])"""
+                    except SyntaxError:
+                        print("Space Error on", value[:-4])
+                        """found.__setattr__(words[2], value)"""
                     found.save()
 
 
