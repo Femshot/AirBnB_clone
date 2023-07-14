@@ -1,24 +1,24 @@
 #!/usr/bin/python3
-"""Defines the place class"""
+"""Defines the Place class"""
 import models
 BaseModel = models.base_model.BaseModel
 
 
-class place(BaseModel):
-    """Represents a user's state
+class Place(BaseModel):
+    """Represents a Place
 
     Attributes:
-        city_id (str): The city id
-        user_id (str): The user id
-        name (str): The name of the place
-        description (str): The description of the palce
-        number_rooms (int): The number of rooms of the place
-        number_bathrooms (int): The number of bathrooms in the place
-        max_guest (int): The maximum number of guests the place can take
-        price_by_nigth (int): The price by night of the place
-        latitude (float): The latitude of the place
-        longitude (float): The longitude of the place
-        amenity_id (list): A list of Amenities
+        city_id (str): The City.id
+        user_id (str): The User.id
+        name (str): The name of the Place
+        description (str): The description of the Palce
+        number_rooms (int): The number of rooms of the Place
+        number_bathrooms (int): The number of bathrooms in the Place
+        max_guest (int): The maximum number of guests the Place can take
+        price_by_nigth (int): The price by night of the Place
+        latitude (float): The latitude of the Place
+        longitude (float): The longitude of the Place
+        amenity_id (list(str's)): A list of Amenities.id's
     """
 
     city_id = ""
@@ -28,7 +28,9 @@ class place(BaseModel):
     number_rooms = 0
     number_bathrooms = 0
     max_guest = 0
-    price_by_nigth = 0
+    price_by_night = 0
     latitude = 0.0
     longitude = 0.0
-    amenity_id = []
+    amenity_ids = []
+
+    pass

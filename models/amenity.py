@@ -4,11 +4,13 @@ import models
 BaseModel = models.base_model.BaseModel
 
 
-class amenity(BaseModel):
-    """Represents a user's state
+class Amenity(BaseModel):
+    """Represents an Amenity
 
     Attributes:
-        name(str): The name of the user's Amenity
+        name(str): The name of the Amenity
     """
 
     name = ""
+
+    pass
