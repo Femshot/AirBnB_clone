@@ -6,6 +6,7 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
+
 class BaseModel:
     """
     defines the BaseModel class.
@@ -41,7 +42,8 @@ class BaseModel:
 
             Returns: [<class name>] (<self.id>) <self.__dict__>
         """
-        return "[{}] ({}) {}".format(self.__class__.__name__, self.id, self.__dict__)
+        return "[{}] ({}) {}".format(self.__class__.__name__, self.id,
+                                     self.__dict__)
 
     def save(self):
         """ update updated_at with the current datetime"""

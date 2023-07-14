@@ -3,6 +3,7 @@
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
     """Defines a class Filestorage to store object instance
 
@@ -53,5 +54,5 @@ class FileStorage:
                 obj_dict = json.load(fl)
                 for key, value in obj_dict.items():
                     FileStorage.__objects[key] = BaseModel(**value)
-        except:
+        except Exception:
             pass
