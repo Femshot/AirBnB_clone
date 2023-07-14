@@ -13,11 +13,4 @@ class Amenity(BaseModel):
 
     name = ""
 
-    def __init__(self, *args, **kwargs):
-        """Instantiation of Amenity class Object
-
-        Args:
-            args: positional arguments
-            kwargs: keyword argument
-        """
-        super().__init__(*args, **kwargs)
+    pass

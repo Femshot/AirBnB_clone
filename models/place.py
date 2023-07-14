@@ -33,11 +33,4 @@ class Place(BaseModel):
     longitude = 0.0
     amenity_ids = []
 
-    def __init__(self, *args, **kwargs):
-        """Instantiation of Place class Object
-
-        Args:
-            args: positional arguments
-            kwargs: keyword argument
-        """
-        super().__init__(*args, **kwargs)
+    pass

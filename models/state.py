@@ -12,11 +12,4 @@ class State(BaseModel):
     """
     name = ""
 
-    def __init__(self, *args, **kwargs):
-        """Instantiation of State class Object
-
-        Args:
-            args: positional arguments
-            kwargs: Keyword arguments
-        """
-        super().__init__(*args, **kwargs)
+    pass

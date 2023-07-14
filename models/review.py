@@ -17,11 +17,4 @@ class Review(BaseModel):
     user_id = ""
     text = ""
 
-    def __init__(self, *args, **kwargs):
-        """Instantiation of User class Object
-
-        Args:
-            args: positional arguments
-            kwargs: keyword argument
-        """
-        super().__init__(*args, **kwargs)
+    pass
