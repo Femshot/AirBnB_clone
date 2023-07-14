@@ -4,11 +4,20 @@ import models
 BaseModel = models.base_model.BaseModel
 
 
-class amenity(BaseModel):
-    """Represents a user's state
+class Amenity(BaseModel):
+    """Represents an Amenity
 
     Attributes:
-        name(str): The name of the user's Amenity
+        name(str): The name of the Amenity
     """
 
     name = ""
+
+    def __init__(self, *args, **kwargs):
+        """Instantiation of Amenity class Object
+
+        Args:
+            args: positional arguments
+            kwargs: keyword argument
+        """
+        super().__init__(*args, **kwargs)
