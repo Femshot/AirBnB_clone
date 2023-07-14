@@ -106,6 +106,37 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                 new_list.append(str(all_obj[obj]))
             print(new_list)
 
+    def do_update(self, arg):
+        """Updates an instance based on the class name and id
+
+        Attributes can be added or updated then saved to Json File
+        """
+        if not arg:
+            print("** class name missing **")
+        else:
+            words = arg.split()
+            if words[0] != "BaseModel":
+                print("** class doesn't exist **")
+            elif len(words) == 1:
+                print("** instance id missing **")
+            elif len(words) == 2:
+                print("** attribute name missing **")
+            elif len(words) == 3:
+                print("** value missing **")
+            else:
+                models.storage.reload()
+                all_obj = models.storage.all()
+                found = False
+                for key, value in all_obj.items():
+                    if key == words[0] + "." + words[1]:
+                        found = value
+                if not found:
+                    print("** instance id missing **")
+                else:
+                    words[3] = eval(words[3])
+                    found.__setattr__(words[2], words[3])
+                    found.save()
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
