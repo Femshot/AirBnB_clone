@@ -176,8 +176,9 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                     print("** instance id missing **")
                 else:
                     if len(words[3].split()) == 1:
-                        if words[3].startswith("\"") and words[3].endswith("\""):
-                            found.__setattr__(words[2], eval(words[3]))
+                        var = words[3]
+                        if var.startswith("\"") and var.endswith("\""):
+                            found.__setattr__(words[2], eval(var))
                         else:
                             found.__setattr__(words[2], words[3])
                     else:
@@ -206,6 +207,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                 if obj.startswith(arg):
                     new_list.append(all_obj[obj])
             print(len(new_list))
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
