@@ -10,7 +10,6 @@ from models.place import Place
 from models.review import Review
 
 
-
 class FileStorage:
     """Defines a class Filestorage to store object instance
 
