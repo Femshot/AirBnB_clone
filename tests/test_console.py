@@ -1,9 +1,4 @@
 #!/usr/bin/python3
-"""
-defines unittest for console
-"""
-
-#!/usr/bin/python3
 """Defines unittests for console.py.
 
 Unittest classes:
