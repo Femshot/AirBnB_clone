@@ -15,7 +15,7 @@ BaseModel = models.base_model.BaseModel
 
 class HBNBCommand(cmd.Cmd, BaseModel):
     """
-    Defines ALX AirBnB command interpreter
+    Defines ALX AirBnB command console interpreter
     """
     cls_list = ["BaseModel", "User", "State", "City", "Place", "Amenity",
                 "Review"]
@@ -26,17 +26,38 @@ class HBNBCommand(cmd.Cmd, BaseModel):
         pass
 
     def do_quit(self, arg):
-        """Quit command to exit the program."""
+        """Quit command to exit the program. usage: 'quit'"""
         return True
 
     def do_EOF(self, arg):
-        """EOF signal to exit the program"""
+        """EOF signal to exit the program usage: 'EOF'"""
         return True
+
+    def default(self, line):
+        """Handles '<class name>.command()' and Unknown commands"""
+        if line.endswith(".all()"):
+            line = line.rsplit(".")
+            self.do_all(line[0])
+        elif line.endswith(".count()"):
+            line = line.rsplit('.')
+            HBNBCommand.count(line[0])
+        else:
+            line = line.split(".")
+            if line[0] in HBNBCommand.cls_list:
+                if line[1].startswith("show"):
+                    var = line[1].strip('\"show()\"')
+                    var = f"{line[0]} {var}"
+                    self.do_show(var)
+                elif line[1].startswith("destroy"):
+                    var = line[1].strip('\"destroy()\"')
+                    var = f"{line[0]} {var}"
+                    self.do_destroy(var)
 
     def do_create(self, arg):
         """Creates a new instance of BaseModel,
 
         Saves it (to the JSON file) and prints out the id
+        usage: 'create <class name>'
         """
         if not arg:
             print("** class name missing **")
@@ -51,6 +72,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
         """Prints the string representation of an instance
 
         Based on the class name and id supplied
+        usage: 'show <class name> <id>'or <class name>.show("<id>")
         """
         if not arg:
             print("** class name missing **")
@@ -76,6 +98,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
         """Deletes an instance based on the class name and id
 
         Save the change into the JSON file after
+        usage: 'destroy <class name> <id>' or <class name>.destroy("<id>")
         """
         if not arg:
             print("** class name missing **")
@@ -101,7 +124,8 @@ class HBNBCommand(cmd.Cmd, BaseModel):
     def do_all(self, arg):
         """Prints all string representation of all instances
 
-        based or not on the class name, i.e Ex: $ all BaseModel or $ all.
+        based or not on the class name.
+        usage: 'all <class name>' or 'all' or '<class name>.all()'
         """
         if arg and arg not in HBNBCommand.cls_list:
             print("** class doesn't exist **")
@@ -154,6 +178,22 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                         """found.__setattr__(words[2], value)"""
                     found.save()
 
+    @staticmethod
+    def count(arg):
+        """Counts the number of objects in storage for a particular class
+
+        usage: <class name>.count()
+        """
+        if arg not in HBNBCommand.cls_list:
+            print("** class doesn't exist **")
+        else:
+            new_list = []
+            models.storage.reload()
+            all_obj = models.storage.all()
+            for obj in all_obj:
+                if obj.startswith(arg):
+                    new_list.append(all_obj[obj])
+            print(len(new_list))
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
