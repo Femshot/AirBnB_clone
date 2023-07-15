@@ -42,7 +42,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
             line = line.rsplit('.')
             HBNBCommand.count(line[0])
         else:
-            line = line.split(".")
+            line = line.split(".", maxsplit=1)
             if line[0] in HBNBCommand.cls_list:
                 if line[1].startswith("show"):
                     var = line[1].strip('\"show()\"')
@@ -52,6 +52,13 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                     var = line[1].strip('\"destroy()\"')
                     var = f"{line[0]} {var}"
                     self.do_destroy(var)
+                elif line[1].startswith("update"):
+                    var = line[1].strip("update()")
+                    var = var.split(", ")
+                    cls_id = var[0].strip("\"")
+                    cls_atr = var[1].strip("\"")
+                    var = f"{line[0]} {cls_id} {cls_atr} {var[2]}"
+                    self.do_update(var)
 
     def do_create(self, arg):
         """Creates a new instance of BaseModel,
@@ -149,7 +156,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
         if not arg:
             print("** class name missing **")
         else:
-            words = arg.split()
+            words = arg.split(" ", maxsplit=3)
             if words[0] not in HBNBCommand.cls_list:
                 print("** class doesn't exist **")
             elif len(words) == 1:
@@ -168,14 +175,19 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                 if not found:
                     print("** instance id missing **")
                 else:
-                    value = (words[3] + ".del")
-                    try:
-                        value_2 = eval(words[3])
-                        print("No Space Error on", value_2)
-                        """found.__setattr__(words[2], words[3])"""
-                    except SyntaxError:
-                        print("Space Error on", value[:-4])
-                        """found.__setattr__(words[2], value)"""
+                    if len(words[3].split()) == 1:
+                        if words[3].startswith("\"") and words[3].endswith("\""):
+                            found.__setattr__(words[2], eval(words[3]))
+                        else:
+                            found.__setattr__(words[2], words[3])
+                    else:
+                        words[3] = words[3].split()
+                        value = []
+                        for word in words[3]:
+                            if word.startswith("\"") or word.endswith("\""):
+                                value.append(word)
+                        value = f"{value[0]} {value[1]}"
+                        found.__setattr__(words[2], value)
                     found.save()
 
     @staticmethod
