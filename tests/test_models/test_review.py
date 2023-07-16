@@ -22,56 +22,68 @@ class TestReview_instantiation(unittest.TestCase):
     """Unittests for testing instantiation of the Review class."""
 
     def test_no_args_instantiates(self):
+        """Test no args instantiates"""
         self.assertEqual(Review, type(Review()))
 
     def test_new_instance_stored_in_objects(self):
+        """Test new instance stored in objects"""
         self.assertIn(Review(), models.storage.all().values())
 
     def test_id_is_public_str(self):
+        """Test id is public str"""
         self.assertEqual(str, type(Review().id))
 
     def test_created_at_is_public_datetime(self):
+        """Test created  at is public datetime"""
         self.assertEqual(datetime, type(Review().created_at))
 
     def test_updated_at_is_public_datetime(self):
+        """Test updated at is public datetime"""
         self.assertEqual(datetime, type(Review().updated_at))
 
     def test_place_id_is_public_class_attribute(self):
+        """Test place id is public class attribute"""
         rv = Review()
         self.assertEqual(str, type(Review.place_id))
         self.assertIn("place_id", dir(rv))
         self.assertNotIn("place_id", rv.__dict__)
 
     def test_user_id_is_public_class_attribute(self):
+        """Test user id is public class attribute"""
         rv = Review()
         self.assertEqual(str, type(Review.user_id))
         self.assertIn("user_id", dir(rv))
         self.assertNotIn("user_id", rv.__dict__)
 
     def test_text_is_public_class_attribute(self):
+        """Test text is public class attribute"""
         rv = Review()
         self.assertEqual(str, type(Review.text))
         self.assertIn("text", dir(rv))
         self.assertNotIn("text", rv.__dict__)
 
     def test_two_reviews_unique_ids(self):
+        """Test two reviews unique ids"""
         rv1 = Review()
         rv2 = Review()
         self.assertNotEqual(rv1.id, rv2.id)
 
     def test_two_reviews_different_created_at(self):
+        """Test  two reviews different created at"""
         rv1 = Review()
         sleep(0.05)
         rv2 = Review()
         self.assertLess(rv1.created_at, rv2.created_at)
 
     def test_two_reviews_different_updated_at(self):
+        """Test two reviews different updated at"""
         rv1 = Review()
         sleep(0.05)
         rv2 = Review()
         self.assertLess(rv1.updated_at, rv2.updated_at)
 
     def test_str_representation(self):
+        """Test str representation"""
         dt = datetime.today()
         dt_repr = repr(dt)
         rv = Review()
@@ -84,10 +96,12 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertIn("'updated_at': " + dt_repr, rvstr)
 
     def test_args_unused(self):
+        """Test args unused"""
         rv = Review(None)
         self.assertNotIn(None, rv.__dict__.values())
 
     def test_instantiation_with_kwargs(self):
+        """Test instantiation with kwargs"""
         dt = datetime.today()
         dt_iso = dt.isoformat()
         rv = Review(id="345", created_at=dt_iso, updated_at=dt_iso)
@@ -96,6 +110,7 @@ class TestReview_instantiation(unittest.TestCase):
         self.assertEqual(rv.updated_at, dt)
 
     def test_instantiation_with_None_kwargs(self):
+        """Test instantiation with None kwargs"""
         with self.assertRaises(TypeError):
             Review(id=None, created_at=None, updated_at=None)
 
@@ -105,12 +120,14 @@ class TestReview_save(unittest.TestCase):
 
     @classmethod
     def setUp(self):
+        """Set Up"""
         try:
             os.rename("file.json", "tmp")
         except IOError:
             pass
 
     def tearDown(self):
+        """Tear Down"""
         try:
             os.remove("file.json")
         except IOError:
@@ -121,6 +138,7 @@ class TestReview_save(unittest.TestCase):
             pass
 
     def test_one_save(self):
+        """Test one save"""
         rv = Review()
         sleep(0.05)
         first_updated_at = rv.updated_at
@@ -128,6 +146,7 @@ class TestReview_save(unittest.TestCase):
         self.assertLess(first_updated_at, rv.updated_at)
 
     def test_two_saves(self):
+        """Test two saves"""
         rv = Review()
         sleep(0.05)
         first_updated_at = rv.updated_at
@@ -139,11 +158,13 @@ class TestReview_save(unittest.TestCase):
         self.assertLess(second_updated_at, rv.updated_at)
 
     def test_save_with_arg(self):
+        """Test save with arg"""
         rv = Review()
         with self.assertRaises(TypeError):
             rv.save(None)
 
     def test_save_updates_file(self):
+        """Test save updates file"""
         rv = Review()
         rv.save()
         rvid = "Review." + rv.id
@@ -155,9 +176,11 @@ class TestReview_to_dict(unittest.TestCase):
     """Unittests for testing to_dict method of the Review class."""
 
     def test_to_dict_type(self):
+        """Test to dict type"""
         self.assertTrue(dict, type(Review().to_dict()))
 
     def test_to_dict_contains_correct_keys(self):
+        """Test to dict contains correct keys"""
         rv = Review()
         self.assertIn("id", rv.to_dict())
         self.assertIn("created_at", rv.to_dict())
@@ -165,6 +188,7 @@ class TestReview_to_dict(unittest.TestCase):
         self.assertIn("__class__", rv.to_dict())
 
     def test_to_dict_contains_added_attributes(self):
+        """Test to dict contains added attributes"""
         rv = Review()
         rv.middle_name = "Holberton"
         rv.my_number = 98
@@ -172,6 +196,7 @@ class TestReview_to_dict(unittest.TestCase):
         self.assertIn("my_number", rv.to_dict())
 
     def test_to_dict_datetime_attributes_are_strs(self):
+        """Test to dict datetime attributes are strs"""
         rv = Review()
         rv_dict = rv.to_dict()
         self.assertEqual(str, type(rv_dict["id"]))
@@ -179,6 +204,7 @@ class TestReview_to_dict(unittest.TestCase):
         self.assertEqual(str, type(rv_dict["updated_at"]))
 
     def test_to_dict_output(self):
+        """Test to dict output"""
         dt = datetime.today()
         rv = Review()
         rv.id = "123456"
@@ -192,10 +218,12 @@ class TestReview_to_dict(unittest.TestCase):
         self.assertDictEqual(rv.to_dict(), tdict)
 
     def test_contrast_to_dict_dunder_dict(self):
+        """Test contrast to dict dunder dict"""
         rv = Review()
         self.assertNotEqual(rv.to_dict(), rv.__dict__)
 
     def test_to_dict_with_arg(self):
+        """Test to dict with arg"""
         rv = Review()
         with self.assertRaises(TypeError):
             rv.to_dict(None)
@@ -233,9 +261,11 @@ class TestReview(unittest.TestCase):
             self.assertTrue(len(func[1].__doc__) >= 1)
 
     def setUp(self):
+        """Set Up"""
         self.R = Review()
 
     def tearDown(self):
+        """Tear  Down"""
         self.R = None
 
     def test_type(self):
