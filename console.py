@@ -173,7 +173,7 @@ class HBNBCommand(cmd.Cmd, BaseModel):
                     if key == words[0] + "." + words[1]:
                         found = value
                 if not found:
-                    print("** instance id missing **")
+                    print("** no instance found **")
                 else:
                     if len(words[3].split()) == 1:
                         var = words[3]
